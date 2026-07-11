@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asmaa Nour Eldin | Portfolio</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="camera.png" type="image/x-icon">
+    
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --accent-color: #6610f2;
+            --dark-bg: #0f172a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: #f8fafc;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ambient Glow Backgrounds */
+        body::before, body::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(13, 110, 253, 0.15) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+        }
+        body::before { top: 10%; left: 10%; }
+        body::after { bottom: 20%; right: 10%; }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Navbar Customization */
+        .navbar {
+            background: rgba(15, 23, 42, 0.8) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .nav-link {
+            color: #cbd5e1 !important;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #fff !important;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section & Circular Photo Placeholder */
+        .hero-section {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+        }
+
+        .profile-circle-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            margin: 0 auto;
+        }
+
+        .profile-circle {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 4px solid var(--primary-color);
+            background: #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(13, 110, 253, 0.3);
+            transition: transform 0.5s ease;
+        }
+
+        .profile-circle:hover {
+            transform: scale(1.03) rotate(3deg);
+        }
+
+        /* Pulsing Glow Animation around Photo */
+        .profile-circle-container::before {
+            content: '';
+            position: absolute;
+            top: -10px; left: -10px; right: -10px; bottom: -10px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            z-index: 1;
+            opacity: 0.4;
+            animation: pulseGlow 3s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(0.98); opacity: 0.3; filter: blur(5px); }
+            100% { transform: scale(1.05); opacity: 0.6; filter: blur(15px); }
+        }
+
+        /* Glassmorphism Cards with Hover Effects */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(5px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(13, 110, 253, 0.4);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Custom Badge / Tags */
+        .badge-custom {
+            background: rgba(13, 110, 253, 0.15);
+            color: #60a5fa;
+            border: 1px solid rgba(13, 110, 253, 0.3);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .badge-custom:hover {
+            background: var(--primary-color);
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        /* Timeline Design */
+        .timeline-item {
+            position: relative;
+            padding-left: 25px;
+            border-left: 2px solid var(--border-color);
+            margin-bottom: 25px;
+            transition: border-color 0.3s ease;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -7px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            transition: transform 0.3s ease;
+        }
+
+        .timeline-item:hover::before {
+            transform: scale(1.4);
+            background: var(--accent-color);
+        }
+
+        .timeline-item:hover {
+            border-left-color: var(--primary-color);
+        }
+
+        /* Section Headings Styling */
+        .section-title {
+            position: relative;
+            padding-bottom: 12px;
+            margin-bottom: 40px;
+            font-weight: 700;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .text-gradient {
+            background: linear-gradient(45deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Scroll Animation Utility Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">AN.</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#experience">Experience</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#skills">Skills & Core</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#education">Education & Fieldwork</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero / Home Section[cite: 1] -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center gy-5">
+                <div class="col-lg-7 order-2 order-lg-1 text-center text-lg-start">
+                    <h5 class="text-primary fw-bold text-uppercase tracking-wider mb-2">Welcome to my Portfolio</h5>
+                    <h1 class="display-4 fw-bold mb-3">Hi, I'm <span class="text-gradient">Asmaa Nour Eldin</span></h1>
+                    <h3 class="h4 text-muted mb-4">Geophysics Graduate | Sales & Marketing Specialist | Content Creator</h3>
+                    <p class="lead text-secondary mb-5" style="max-width: 600px;">
+                        Blending scientific thinking and core analytical skills with creative brand development, 
+                        visual storytelling, and targeted client relationship management.
+                    </p>
+                    <div class="d-flex gap-3 justify-content-center justify-content-lg-start">
+                        <a href="#contact" class="btn btn-primary btn-lg px-4 rounded-pill shadow">Let's Connect</a>
+                        <a href="#experience" class="btn btn-outline-light btn-lg px-4 rounded-pill">View Work</a>
+                    </div>
+                </div>
+                <div class="col-lg-5 order-1 order-lg-2">
+                    <div class="profile-circle-container">
+                        <div class="profile-circle">
+                            <!-- Circular place for photo later on -->
+                            <!-- <i class="fa-regular fa-user fa-5x text-muted opacity-50"></i> -->
+                            <!-- When ready, replace the icon above with: -->
+                            <img src="Asmaa Nour.png" alt="Asmaa" style="width:100%; height:100%; object-fit:cover;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About / Summary Section[cite: 1] -->
+    <section id="about" class="py-5 section-padding reveal">
+        <div class="container py-4">
+            <h2 class="section-title">Professional Summary</h2>
+            <div class="glass-card p-4 p-md-5">
+                <div class="row g-4">
+                    <div class="col-md-4 text-center border-end border-secondary border-opacity-25 d-flex flex-column justify-content-center">
+                        <div class="h1 fw-bold text-primary mb-0">Science</div>
+                        <div class="text-uppercase tracking-wide small text-muted mb-3">Meets</div>
+                        <div class="h1 fw-bold text-accent text-gradient mb-0">Creativity</div>
+                    </div>
+                    <div class="col-md-8">
+                        <p class="card-text fs-5 leading-relaxed">
+                            Geophysics graduate with a strong analytical and technical background, complemented by hands-on experience in business development, sales, content creation, and client relations across pharmaceutical and industrial sectors.
+                        </p>
+                        <p class="card-text text-muted">
+                            Passionate about marketing, branding, and visual storytelling, with practical experience in content production, social media, and building meaningful customer relationships. Able to combine scientific thinking, analytical skills, and creativity to communicate products, ideas, and brand messages effectively.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section[cite: 1] -->
+    <section id="experience" class="py-5 bg-black bg-opacity-20 reveal">
+        <div class="container py-4">
+            <h2 class="section-title">Career Experience</h2>
+            <div class="row g-4">
+                
+                <div class="col-md-4">
+                    <div class="glass-card p-4 h-100">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <span class="badge bg-primary px-3 py-2 rounded-pill">Feb 2026 - Present</span>
+                        </div>
+                        <h4 class="fw-bold mb-1">Technical Sales Executive</h4>
+                        <h6 class="text-gradient mb-3">Petromix for Lubricants</h6>
+                        <p class="text-muted small mb-0">Driven focus on managing client relations, generating professional quotations, and scaling sales growth.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="glass-card p-4 h-100">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <span class="badge bg-secondary px-3 py-2 rounded-pill">Sep 2025 - Mar 2026</span>
+                        </div>
+                        <h4 class="fw-bold mb-1">Business Development Engineer</h4>
+                        <h6 class="text-gradient mb-3">Lubemaster for Lubricants</h6>
+                        <p class="text-muted small mb-0">Focused on expanding corporate footprints through solid business development, modern lead generation tactics, and proactive client acquisition.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="glass-card p-4 h-100">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <span class="badge bg-dark border border-secondary px-3 py-2 rounded-pill">Aug 2024 - Sep 2025</span>
+                        </div>
+                        <h4 class="fw-bold mb-1">Medical Representative</h4>
+                        <h6 class="text-gradient mb-3">DPI Pharma</h6>
+                        <p class="text-muted small mb-0">Maximized product promotion, high-level physician engagement metrics, and strategic pharmaceutical sales achievements.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills & Content Creation[cite: 1] -->
+    <section id="skills" class="py-5 reveal">
+        <div class="container py-4">
+            <div class="row g-5">
+                
+                <!-- Content Creation Focus -->
+                <div class="col-lg-6">
+                    <h2 class="section-title">Content Creation & Personal Branding</h2>
+                    <div class="glass-card p-4">
+                        <div class="row g-3">
+                            <div class="col-6"><div class="p-3 bg-dark bg-opacity-50 rounded border border-secondary border-opacity-25 text-center"><i class="fa-solid fa-video text-primary mb-2"></i><br><small>UGC Video Creation</small></div></div>
+                            <div class="col-6"><div class="p-3 bg-dark bg-opacity-50 rounded border border-secondary border-opacity-25 text-center"><i class="fa-solid fa-bolt text-warning mb-2"></i><br><small>Short-form Content</small></div></div>
+                            <div class="col-6"><div class="p-3 bg-dark bg-opacity-50 rounded border border-secondary border-opacity-25 text-center"><i class="fa-solid fa-camera text-info mb-2"></i><br><small>Product Photography</small></div></div>
+                            <div class="col-6"><div class="p-3 bg-dark bg-opacity-50 rounded border border-secondary border-opacity-25 text-center"><i class="fa-solid fa-pen-nib text-success mb-2"></i><br><small>Script & Copywriting</small></div></div>
+                            <div class="col-6"><div class="p-3 bg-dark bg-opacity-50 rounded border border-secondary border-opacity-25 text-center"><i class="fa-solid fa-share-nodes text-accent mb-2"></i><br><small>Social Media Strategy</small></div></div>
+                            <div class="col-6"><div class="p-3 bg-dark bg-opacity-50 rounded border border-secondary border-opacity-25 text-center"><i class="fa-solid fa-book-open text-danger mb-2"></i><br><small>Visual Storytelling</small></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Technical & Soft Skills Tags -->
+                <div class="col-lg-6">
+                    <h2 class="section-title">Skills Overview</h2>
+                    <div class="mb-4">
+                        <h5 class="text-gradient mb-3"><i class="fa-solid fa-gears me-2"></i>Technical & Tools</h5>
+                        <div class="d-flex flex-wrap">
+                            <span class="badge-custom">Marketing</span><span class="badge-custom">Content Creation</span>
+                            <span class="badge-custom">UGC</span><span class="badge-custom">Business Development</span>
+                            <span class="badge-custom">Branding</span><span class="badge-custom">Social Media Management</span>
+                            <span class="badge-custom">CRM</span><span class="badge-custom">Canva</span>
+                            <span class="badge-custom">CapCut</span><span class="badge-custom">Geophysical Analysis</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h5 class="text-gradient mb-3"><i class="fa-solid fa-user-group me-2"></i>Soft Skills & Languages</h5>
+                        <div class="d-flex flex-wrap">
+                            <span class="badge-custom">Negotiation</span><span class="badge-custom">Presentation Skills</span>
+                            <span class="badge-custom">Client Relationship Management</span><span class="badge-custom">Sales Techniques</span>
+                            <span class="badge-custom">Analytical Thinking</span><span class="badge-custom">Creativity</span>
+                            <span class="badge-custom">Arabic (Native)</span><span class="badge-custom">English (Very Good)</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Education, Scholarships & Fieldwork[cite: 1] -->
+    <section id="education" class="py-5 bg-black bg-opacity-20 reveal">
+        <div class="container py-4">
+            <div class="row g-5">
+                
+                <!-- Education & Scholarship Timeline -->
+                <div class="col-md-6">
+                    <h2 class="section-title">Education & Programs</h2>
+                    
+                    <div class="timeline-item">
+                        <h5 class="fw-bold mb-1">Faculty of Science, Menoufia University</h5>
+                        <span class="text-primary small d-block mb-2">2019 - 2023 | Geophysics Department</span>
+                        <p class="text-muted small">Graduation Project Title: <strong>Seismic Interpretation</strong>.<br><span class="text-success">Grade: Excellent</span></p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h5 class="fw-bold mb-1">Al Amal Program Scholarship</h5>
+                        <span class="text-primary small d-block mb-2">Aug 2023 - Dec 2024</span>
+                        <p class="text-muted small">Highly selective training for top graduates in the geoscience field organized by EGS, focusing on the upstream oil and gas industry. Covered vital technical workflows, non-technical capacities, and field camps.</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <h5 class="fw-bold mb-1">Exploration Projects & Internships</h5>
+                        <p class="text-muted small">
+                            • Shell NXplorer Program: Hydrocarbon Potential in Bream field, SW Australia.<br>
+                            • ENAP Company (West Amer) & Khalda Petroleum Rig/Field training.<br>
+                            • Mud Logging School (Alexandria University with AAPG) & Ankha Resources.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Field Trips Grid Layout -->
+                <div class="col-md-6">
+                    <h2 class="section-title">Field Trips & Site Visits</h2>
+                    <div class="glass-card p-4">
+                        <ul class="list-group list-group-flush bg-transparent">
+                            <li class="list-group-item bg-transparent text-white border-secondary border-opacity-25 d-flex justify-content-between align-items-center">
+                                <span>Ceramica Cleopatra Ain Sokhna Factory</span>
+                                <span class="badge bg-dark border border-secondary rounded-pill">Feb 2023</span>
+                            </li>
+                            <li class="list-group-item bg-transparent text-white border-secondary border-opacity-25 d-flex justify-content-between align-items-center">
+                                <span>Qarun Petroleum Company (Al Wahat Road)</span>
+                                <span class="badge bg-dark border border-secondary rounded-pill">Mar 2022</span>
+                            </li>
+                            <li class="list-group-item bg-transparent text-white border-secondary border-opacity-25 d-flex justify-content-between align-items-center">
+                                <span>Dolomite Quarry (Ataqa Mountain, Suez)</span>
+                                <span class="badge bg-dark border border-secondary rounded-pill">Nov 2021</span>
+                            </li>
+                            <li class="list-group-item bg-transparent text-white border-secondary border-opacity-25 d-flex justify-content-between align-items-center">
+                                <span>Nuclear Materials Authority (Rashid & Katameya)</span>
+                                <span class="badge bg-dark border border-secondary rounded-pill">2021 / 2022</span>
+                            </li>
+                            <li class="list-group-item bg-transparent text-white border-bottom-0 d-flex justify-content-between align-items-center">
+                                <span>Red Sea Mountain Exploration (7 Key Geology Stops)</span>
+                                <span class="badge bg-dark border border-secondary rounded-pill">Feb 2023</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section[cite: 1] -->
+    <section id="contact" class="py-5 reveal">
+        <div class="container py-4 text-center">
+            <h2 class="section-title mx-auto" style="width: max-content;">Get In Touch</h2>
+            <p class="text-muted mb-5">Open to exciting new opportunities in Sales, Marketing, Branding, or Geoscience projects.</p>
+            
+            <div class="row justify-content-center g-4">
+                <div class="col-md-3">
+                    <a href="mailto:asmaanour446@gmail.com" class="glass-card p-4 d-block text-decoration-none text-white">
+                        <i class="fa-solid fa-envelope fa-2x text-primary mb-3"></i>
+                        <h5>Email Me</h5>
+                        <p class="small text-muted mb-0">asmaanour446@gmail.com</p>
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <a href="tel:+201029184703" class="glass-card p-4 d-block text-decoration-none text-white">
+                        <i class="fa-solid fa-phone fa-2x text-success mb-3"></i>
+                        <h5>Call Me</h5>
+                        <p class="small text-muted mb-0">+20 1029184703</p>
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <a href="https://www.linkedin.com/in/asmaa-nour-781353250/" target="_blank" class="glass-card p-4 d-block text-decoration-none text-white">
+                        <i class="fa-brands fa-linkedin fa-2x text-info mb-3"></i>
+                        <h5>LinkedIn</h5>
+                        <p class="small text-muted mb-0">Connect Professionally</p>
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <div class="glass-card p-4 d-block text-white">
+                        <i class="fa-solid fa-location-dot fa-2x text-danger mb-3"></i>
+                        <h5>Location</h5>
+                        <p class="small text-muted mb-0">Cairo, Egypt</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-4 border-top border-secondary border-opacity-25 text-center text-muted small">
+        <div class="container">
+            &copy; 2026 Asmaa Nour Eldin. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JavaScript Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom Scroll Animation Trigger Script -->
+    <script>
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        // Initial call to load elements already in viewport
+        reveal();
+    </script>
+</body>
+</html>
