@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,23 +11,92 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="camera.png" type="image/x-icon">
+    <script>
+        (function () {
+            var saved = localStorage.getItem('theme');
+            var theme = saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     
     <style>
         :root {
             --primary-color: #0d6efd;
             --accent-color: #6610f2;
-            --dark-bg: #0f172a;
+        }
+
+        /* Dark theme (default) */
+        [data-theme="dark"] {
+            --body-bg: #0f172a;
+            --body-color: #f8fafc;
+            --text-muted-color: #94a3b8;
+            --text-secondary-color: #cbd5e1;
             --card-bg: rgba(255, 255, 255, 0.05);
+            --card-hover-bg: rgba(255, 255, 255, 0.08);
             --border-color: rgba(255, 255, 255, 0.1);
-            --text-muted: #e0e5ed;
+            --navbar-bg: rgba(15, 23, 42, 0.8);
+            --nav-link-color: #cbd5e1;
+            --nav-link-hover: #ffffff;
+            --profile-bg: #1e293b;
+            --section-alt-bg: rgba(0, 0, 0, 0.2);
+            --skill-box-bg: rgba(0, 0, 0, 0.5);
+            --badge-bg: rgba(13, 110, 253, 0.15);
+            --badge-color: #60a5fa;
+            --badge-border: rgba(13, 110, 253, 0.3);
+            --glow-color: rgba(13, 110, 253, 0.15);
+            --gradient-start: #60a5fa;
+            --gradient-end: #a78bfa;
+            --card-shadow: rgba(0, 0, 0, 0.3);
+            --footer-border: rgba(255, 255, 255, 0.15);
+            --theme-toggle-bg: rgba(255, 255, 255, 0.1);
+            --theme-toggle-color: #fbbf24;
+            --toggler-filter: invert(1) grayscale(100%) brightness(200%);
+        }
+
+        /* Light theme */
+        [data-theme="light"] {
+            --body-bg: #f1f5f9;
+            --body-color: #0f172a;
+            --text-muted-color: #64748b;
+            --text-secondary-color: #475569;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-hover-bg: #ffffff;
+            --border-color: rgba(15, 23, 42, 0.12);
+            --navbar-bg: rgba(255, 255, 255, 0.9);
+            --nav-link-color: #475569;
+            --nav-link-hover: #0d6efd;
+            --profile-bg: #e2e8f0;
+            --section-alt-bg: rgba(13, 110, 253, 0.06);
+            --skill-box-bg: rgba(13, 110, 253, 0.08);
+            --badge-bg: rgba(13, 110, 253, 0.1);
+            --badge-color: #2563eb;
+            --badge-border: rgba(13, 110, 253, 0.25);
+            --glow-color: rgba(13, 110, 253, 0.12);
+            --gradient-start: #2563eb;
+            --gradient-end: #7c3aed;
+            --card-shadow: rgba(15, 23, 42, 0.12);
+            --footer-border: rgba(15, 23, 42, 0.12);
+            --theme-toggle-bg: rgba(15, 23, 42, 0.08);
+            --theme-toggle-color: #6366f1;
+            --toggler-filter: none;
         }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: var(--dark-bg);
-            color: #f8fafc;
+            background-color: var(--body-bg);
+            color: var(--body-color);
             overflow-x: hidden;
             position: relative;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Override Bootstrap muted/secondary text for both themes */
+        .text-muted {
+            color: var(--text-muted-color) !important;
+        }
+
+        .text-secondary {
+            color: var(--text-secondary-color) !important;
         }
 
         /* Ambient Glow Backgrounds */
@@ -37,8 +106,9 @@
             width: 300px;
             height: 300px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(13, 110, 253, 0.15) 0%, rgba(0,0,0,0) 70%);
+            background: radial-gradient(circle, var(--glow-color) 0%, rgba(0,0,0,0) 70%);
             z-index: -1;
+            transition: background 0.3s ease;
         }
         body::before { top: 10%; left: 10%; }
         body::after { bottom: 20%; right: 10%; }
@@ -50,20 +120,56 @@
 
         /* Navbar Customization */
         .navbar {
-            background: rgba(15, 23, 42, 0.8) !important;
+            background: var(--navbar-bg) !important;
             backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border-color);
             transition: all 0.3s ease;
         }
 
+        .navbar-brand {
+            color: var(--body-color) !important;
+        }
+
         .nav-link {
-            color: #cbd5e1 !important;
+            color: var(--nav-link-color) !important;
             transition: color 0.3s ease, transform 0.3s ease;
         }
 
         .nav-link:hover {
-            color: #fff !important;
+            color: var(--nav-link-hover) !important;
             transform: translateY(-2px);
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            background: var(--theme-toggle-bg);
+            border: 1px solid var(--border-color);
+            color: var(--theme-toggle-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.08) rotate(15deg);
+            border-color: var(--primary-color);
+        }
+
+        [data-theme="dark"] .theme-toggle .fa-sun { display: inline-block; }
+        [data-theme="dark"] .theme-toggle .fa-moon { display: none; }
+        [data-theme="light"] .theme-toggle .fa-sun { display: none; }
+        [data-theme="light"] .theme-toggle .fa-moon { display: inline-block; }
+
+        /* Section alternate backgrounds */
+        .section-alt {
+            background-color: var(--section-alt-bg);
+            transition: background-color 0.3s ease;
         }
 
         /* Hero Section & Circular Photo Placeholder */
@@ -86,7 +192,7 @@
             height: 100%;
             border-radius: 50%;
             border: 4px solid var(--primary-color);
-            background: #1e293b;
+            background: var(--profile-bg);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -130,15 +236,24 @@
         .glass-card:hover {
             transform: translateY(-5px);
             border-color: rgba(13, 110, 253, 0.4);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 30px var(--card-shadow);
+            background: var(--card-hover-bg);
+        }
+
+        .glass-card-link {
+            color: var(--body-color) !important;
+            text-decoration: none;
+        }
+
+        .glass-card-link:hover {
+            color: var(--body-color) !important;
         }
 
         /* Custom Badge / Tags */
         .badge-custom {
-            background: rgba(13, 110, 253, 0.15);
-            color: #60a5fa;
-            border: 1px solid rgba(13, 110, 253, 0.3);
+            background: var(--badge-bg);
+            color: var(--badge-color);
+            border: 1px solid var(--badge-border);
             padding: 6px 14px;
             border-radius: 30px;
             font-size: 0.85rem;
@@ -203,9 +318,54 @@
         }
 
         .text-gradient {
-            background: linear-gradient(45deg, #60a5fa, #a78bfa);
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+
+        /* Skill boxes */
+        .skill-box {
+            background: var(--skill-box-bg);
+            border: 1px solid var(--border-color);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* List group items */
+        .list-group-item-themed {
+            background: transparent !important;
+            color: var(--body-color) !important;
+            border-color: var(--border-color) !important;
+        }
+
+        /* Outline button adapts to theme */
+        .btn-outline-theme {
+            color: var(--body-color);
+            border-color: var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-theme:hover {
+            color: var(--body-bg);
+            background-color: var(--body-color);
+            border-color: var(--body-color);
+        }
+
+        footer {
+            border-color: var(--footer-border) !important;
+        }
+
+        /* Navbar toggler adapts to theme */
+        .navbar-toggler {
+            border-color: var(--border-color);
+        }
+
+        .navbar-toggler-icon {
+            filter: var(--toggler-filter);
+        }
+
+        .border-themed {
+            border-color: var(--border-color) !important;
         }
 
         /* Scroll Animation Utility Classes */
@@ -224,20 +384,26 @@
 <body>
 
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand fw-bold" href="#">AN.</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
                     <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="#experience">Experience</a></li>
                     <li class="nav-item"><a class="nav-link" href="#skills">Skills & Core</a></li>
                     <li class="nav-item"><a class="nav-link" href="#education">Education & Fieldwork</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
+                        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light/dark theme">
+                            <i class="fa-solid fa-sun"></i>
+                            <i class="fa-solid fa-moon"></i>
+                        </button>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -257,7 +423,7 @@
                     </p>
                     <div class="d-flex gap-3 justify-content-center justify-content-lg-start">
                         <a href="#contact" class="btn btn-primary btn-lg px-4 rounded-pill shadow">Let's Connect</a>
-                        <a href="#experience" class="btn btn-outline-light btn-lg px-4 rounded-pill">View Work</a>
+                        <a href="#experience" class="btn btn-outline-theme btn-lg px-4 rounded-pill">View Work</a>
                     </div>
                 </div>
                 <div class="col-lg-5 order-1 order-lg-2">
@@ -280,7 +446,7 @@
             <h2 class="section-title">Professional Summary</h2>
             <div class="glass-card p-4 p-md-5">
                 <div class="row g-4">
-                    <div class="col-md-4 text-center border-end border-secondary border-opacity-25 d-flex flex-column justify-content-center">
+                    <div class="col-md-4 text-center border-end border-themed d-flex flex-column justify-content-center">
                         <div class="h1 fw-bold text-primary mb-0">Science</div>
                         <div class="text-uppercase tracking-wide small text-muted mb-3">Meets</div>
                         <div class="h1 fw-bold text-accent text-gradient mb-0">Creativity</div>
@@ -299,7 +465,7 @@
     </section>
 
     <!-- Experience Section[cite: 1] -->
-    <section id="experience" class="py-5 bg-black bg-opacity-20 reveal">
+    <section id="experience" class="py-5 section-alt reveal">
         <div class="container py-4">
             <h2 class="section-title">Career Experience</h2>
             <div class="row g-4">
@@ -351,12 +517,12 @@
                     <h2 class="section-title">Content Creation & Personal Branding</h2>
                     <div class="glass-card p-4">
                         <div class="row g-3">
-                            <div class="col-6"><div class="p-3 bg-dark bg-opacity-50 rounded border border-secondary border-opacity-25 text-center"><i class="fa-solid fa-video text-primary mb-2"></i><br><small>UGC Video Creation</small></div></div>
-                            <div class="col-6"><div class="p-3 bg-dark bg-opacity-50 rounded border border-secondary border-opacity-25 text-center"><i class="fa-solid fa-bolt text-warning mb-2"></i><br><small>Short-form Content</small></div></div>
-                            <div class="col-6"><div class="p-3 bg-dark bg-opacity-50 rounded border border-secondary border-opacity-25 text-center"><i class="fa-solid fa-camera text-info mb-2"></i><br><small>Product Photography</small></div></div>
-                            <div class="col-6"><div class="p-3 bg-dark bg-opacity-50 rounded border border-secondary border-opacity-25 text-center"><i class="fa-solid fa-pen-nib text-success mb-2"></i><br><small>Script & Copywriting</small></div></div>
-                            <div class="col-6"><div class="p-3 bg-dark bg-opacity-50 rounded border border-secondary border-opacity-25 text-center"><i class="fa-solid fa-share-nodes text-accent mb-2"></i><br><small>Social Media Strategy</small></div></div>
-                            <div class="col-6"><div class="p-3 bg-dark bg-opacity-50 rounded border border-secondary border-opacity-25 text-center"><i class="fa-solid fa-book-open text-danger mb-2"></i><br><small>Visual Storytelling</small></div></div>
+                            <div class="col-6"><div class="p-3 skill-box rounded text-center"><i class="fa-solid fa-video text-primary mb-2"></i><br><small>UGC Video Creation</small></div></div>
+                            <div class="col-6"><div class="p-3 skill-box rounded text-center"><i class="fa-solid fa-bolt text-warning mb-2"></i><br><small>Short-form Content</small></div></div>
+                            <div class="col-6"><div class="p-3 skill-box rounded text-center"><i class="fa-solid fa-camera text-info mb-2"></i><br><small>Product Photography</small></div></div>
+                            <div class="col-6"><div class="p-3 skill-box rounded text-center"><i class="fa-solid fa-pen-nib text-success mb-2"></i><br><small>Script & Copywriting</small></div></div>
+                            <div class="col-6"><div class="p-3 skill-box rounded text-center"><i class="fa-solid fa-share-nodes text-accent mb-2"></i><br><small>Social Media Strategy</small></div></div>
+                            <div class="col-6"><div class="p-3 skill-box rounded text-center"><i class="fa-solid fa-book-open text-danger mb-2"></i><br><small>Visual Storytelling</small></div></div>
                         </div>
                     </div>
                 </div>
@@ -390,7 +556,7 @@
     </section>
 
     <!-- Education, Scholarships & Fieldwork[cite: 1] -->
-    <section id="education" class="py-5 bg-black bg-opacity-20 reveal">
+    <section id="education" class="py-5 section-alt reveal">
         <div class="container py-4">
             <div class="row g-5">
                 
@@ -425,23 +591,23 @@
                     <h2 class="section-title">Field Trips & Site Visits</h2>
                     <div class="glass-card p-4">
                         <ul class="list-group list-group-flush bg-transparent">
-                            <li class="list-group-item bg-transparent text-white border-secondary border-opacity-25 d-flex justify-content-between align-items-center">
+                            <li class="list-group-item list-group-item-themed d-flex justify-content-between align-items-center">
                                 <span>Ceramica Cleopatra Ain Sokhna Factory</span>
                                 <span class="badge bg-dark border border-secondary rounded-pill">Feb 2023</span>
                             </li>
-                            <li class="list-group-item bg-transparent text-white border-secondary border-opacity-25 d-flex justify-content-between align-items-center">
+                            <li class="list-group-item list-group-item-themed d-flex justify-content-between align-items-center">
                                 <span>Qarun Petroleum Company (Al Wahat Road)</span>
                                 <span class="badge bg-dark border border-secondary rounded-pill">Mar 2022</span>
                             </li>
-                            <li class="list-group-item bg-transparent text-white border-secondary border-opacity-25 d-flex justify-content-between align-items-center">
+                            <li class="list-group-item list-group-item-themed d-flex justify-content-between align-items-center">
                                 <span>Dolomite Quarry (Ataqa Mountain, Suez)</span>
                                 <span class="badge bg-dark border border-secondary rounded-pill">Nov 2021</span>
                             </li>
-                            <li class="list-group-item bg-transparent text-white border-secondary border-opacity-25 d-flex justify-content-between align-items-center">
+                            <li class="list-group-item list-group-item-themed d-flex justify-content-between align-items-center">
                                 <span>Nuclear Materials Authority (Rashid & Katameya)</span>
                                 <span class="badge bg-dark border border-secondary rounded-pill">2021 / 2022</span>
                             </li>
-                            <li class="list-group-item bg-transparent text-white border-bottom-0 d-flex justify-content-between align-items-center">
+                            <li class="list-group-item list-group-item-themed border-bottom-0 d-flex justify-content-between align-items-center">
                                 <span>Red Sea Mountain Exploration (7 Key Geology Stops)</span>
                                 <span class="badge bg-dark border border-secondary rounded-pill">Feb 2023</span>
                             </li>
@@ -461,28 +627,28 @@
             
             <div class="row justify-content-center g-4">
                 <div class="col-md-3">
-                    <a href="mailto:asmaanour446@gmail.com" class="glass-card p-4 d-block text-decoration-none text-white">
+                    <a href="mailto:asmaanour446@gmail.com" class="glass-card glass-card-link p-4 d-block">
                         <i class="fa-solid fa-envelope fa-2x text-primary mb-3"></i>
                         <h5>Email Me</h5>
                         <p class="small text-muted mb-0">asmaanour446@gmail.com</p>
                     </a>
                 </div>
                 <div class="col-md-3">
-                    <a href="tel:+201029184703" class="glass-card p-4 d-block text-decoration-none text-white">
+                    <a href="tel:+201029184703" class="glass-card glass-card-link p-4 d-block">
                         <i class="fa-solid fa-phone fa-2x text-success mb-3"></i>
                         <h5>Call Me</h5>
                         <p class="small text-muted mb-0">+20 1029184703</p>
                     </a>
                 </div>
                 <div class="col-md-3">
-                    <a href="https://www.linkedin.com/in/asmaa-nour-781353250/" target="_blank" class="glass-card p-4 d-block text-decoration-none text-white">
+                    <a href="https://www.linkedin.com/in/asmaa-nour-781353250/" target="_blank" class="glass-card glass-card-link p-4 d-block">
                         <i class="fa-brands fa-linkedin fa-2x text-info mb-3"></i>
                         <h5>LinkedIn</h5>
                         <p class="small text-muted mb-0">Connect Professionally</p>
                     </a>
                 </div>
                 <div class="col-md-3">
-                    <div class="glass-card p-4 d-block text-white">
+                    <div class="glass-card p-4 d-block">
                         <i class="fa-solid fa-location-dot fa-2x text-danger mb-3"></i>
                         <h5>Location</h5>
                         <p class="small text-muted mb-0">Cairo, Egypt</p>
@@ -493,7 +659,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="py-4 border-top border-secondary border-opacity-25 text-center text-muted small">
+    <footer class="py-4 border-top text-center text-muted small">
         <div class="container">
             &copy; 2026 Asmaa Nour Eldin. All rights reserved.
         </div>
@@ -516,8 +682,23 @@
             }
         }
         window.addEventListener("scroll", reveal);
-        // Initial call to load elements already in viewport
         reveal();
+
+        // Theme toggle
+        (function () {
+            var toggle = document.getElementById('themeToggle');
+            var root = document.documentElement;
+
+            function setTheme(theme) {
+                root.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+            }
+
+            toggle.addEventListener('click', function () {
+                var current = root.getAttribute('data-theme') || 'dark';
+                setTheme(current === 'dark' ? 'light' : 'dark');
+            });
+        })();
     </script>
 </body>
 </html>
